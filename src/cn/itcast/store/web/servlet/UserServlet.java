@@ -1,6 +1,7 @@
 package cn.itcast.store.web.servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -87,4 +88,41 @@ public class UserServlet extends BaseServlet {
 		}
 		return "/jsp/info.jsp";
 	}
+	
+	/**
+	 * 用户激活
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 * @throws SQLException 
+	 */
+	public String active(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//获取邮箱激活码,(邮箱激活码参数)
+		String code = request.getParameter("code");
+		System.out.println(code);
+		//调用service业务层功能，完成激活
+		UserService userService = new UserServiceImpl();
+		boolean flag = userService.userActive(code);
+		System.out.println(flag);
+		//激活提示
+		if (flag == true) {
+			//用户激活成功，向request放入提示信息，转发到登录页面
+			request.setAttribute("msg", "用户激活成功，请登录！");
+			return "/jsp/login.jsp";
+		}else {
+			//用户激活失败,向request放入信息，转发到提示页面
+			request.setAttribute("msg", "用户激活失败，请重新激活");
+			return "/jsp/info.jsp";
+		}	
+	}
 }
+
+
+
+
+
+
+
+
