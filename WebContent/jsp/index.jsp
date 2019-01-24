@@ -1,5 +1,5 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 
@@ -27,10 +27,17 @@
 				</div>
 				<div class="col-md-3" style="padding-top:20px">
 					<ol class="list-inline">
-						<li><a href="${pageContext.request.contextPath}/jsp/login.jsp">登录</a></li>
-						<li><a href="${pageContext.request.contextPath}/UserServlet?method=registUI">注册</a></li>
-						<li><a href="${pageContext.request.contextPath}/jsp/cart.jsp">购物车</a></li>
-						<li><a href="${pageContext.request.contextPath}/jsp/order_list.jsp">我的订单</a></li>
+						<c:if test="${empty loginUser }">
+							<li><a href="${pageContext.request.contextPath}/UserServlet?method=loginUI">登录</a></li>
+							<li><a href="${pageContext.request.contextPath}/UserServlet?method=registUI">注册</a></li>
+						</c:if>
+						
+						<c:if test="${not empty loginUser }">
+							<li>欢迎${loginUser.username }</li>
+							<li><a href="${pageContext.request.contextPath}/UserServlet?method=logOut">退出</a></li>
+							<li><a href="${pageContext.request.contextPath}/jsp/cart.jsp">购物车</a></li>
+							<li><a href="${pageContext.request.contextPath}/jsp/order_list.jsp">我的订单</a></li>
+						</c:if>	
 					</ol>
 				</div>
 			</div>

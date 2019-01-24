@@ -19,5 +19,12 @@ public interface UserService {
 	 * @return
 	 */
 	boolean userActive(String code) throws SQLException;
+	
+	/**
+	 * 用户登录
+	 * @param user
+	 * @return
+	 */
+	User userLogin(User user) throws SQLException;
 
 }

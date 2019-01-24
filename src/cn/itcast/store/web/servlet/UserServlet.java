@@ -18,6 +18,7 @@ import cn.itcast.store.utils.MailUtils;
 import cn.itcast.store.utils.MyBeanUtils;
 import cn.itcast.store.utils.UUIDUtils;
 import cn.itcast.store.web.base.BaseServlet;
+import javafx.css.PseudoClass;
 
 /**
  * Servlet implementation class UserServlet
@@ -28,6 +29,17 @@ public class UserServlet extends BaseServlet {
 		return "/jsp/register.jsp";
 	}
 	
+	/**
+	 * 跳转向页面登录，通过jsp servlet转向jsp页面
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String loginUI(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		return "/jsp/login.jsp";
+	}
 	/**
 	 * 用户注册userRegist
 	 * @param request
@@ -116,6 +128,61 @@ public class UserServlet extends BaseServlet {
 			request.setAttribute("msg", "用户激活失败，请重新激活");
 			return "/jsp/info.jsp";
 		}	
+	}
+	
+	/**
+	 * 用户登录
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String userLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//1.获取用户数据
+		//方法一：通过BeanUtils封装整个user数据
+		User user = new User();
+		MyBeanUtils.populate(user, request.getParameterMap());
+		
+		//方法二：通过request.getParameter获取表单参数
+	/*	String username = request.getParameter("username");
+		String password = request.getParameter("password");	
+		System.out.println(username+"--"+password);、
+	*/
+		//调用业务层登录功能
+		UserService userService = new UserServiceImpl();
+		User user2 = null;
+		try {
+			//通过传入user信息，查询数据库中是否存在
+			user2 = userService.userLogin(user);
+			//用户登录成功，讲用户信息放入session中
+			request.getSession().setAttribute("loginUser", user2);
+			//页面冲定向
+			response.sendRedirect("/store/index.jsp");
+			return null;
+		} catch (Exception e) {
+			//用户登录失败
+			String msg = e.getMessage();
+			System.out.println(msg);
+			//向request中放入失败的信息
+			request.setAttribute("msg", msg);
+			return "/jsp/login.jsp";
+		}			
+	}
+	/**
+	 * 退出登录
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	public String logOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//清除session，让其失效
+		request.getSession().invalidate();
+		//重定向到首页
+		response.sendRedirect("/store/index.jsp");
+		return null;
 	}
 }
 

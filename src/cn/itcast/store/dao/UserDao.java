@@ -20,5 +20,12 @@ public interface UserDao {
 	 * @param user
 	 */
 	void updateUser(User user) throws SQLException ;
+	
+	/**
+	 * 根据login页面的username password 查找user
+	 * @param user
+	 * @return
+	 */
+	User userLogin(User user) throws SQLException;
 
 }
