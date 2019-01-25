@@ -2,6 +2,7 @@ package cn.itcast.store.web.base;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -40,7 +41,7 @@ public class BaseServlet extends HttpServlet {
 	}
 
 	// 默认方法
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public String execute(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
 		return null;
 	}
 

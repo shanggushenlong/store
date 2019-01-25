@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -53,11 +54,11 @@
 
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-							<ul class="nav navbar-nav">
-								<li class="active"><a href="${pageContext.request.contextPath}/jsp/product_list.jsp">手机数码<span class="sr-only">(current)</span></a></li>
-								<li><a href="#">电脑办公</a></li>
-								<li><a href="#">电脑办公</a></li>
-								<li><a href="#">电脑办公</a></li>
+							<ul class="nav navbar-nav" id="myUL">
+								<%-- 	<c:forEach items="${ allCats }" var="c">
+										<li><a href="#">${c.cname }</a></li>
+									</c:forEach>
+							 --%>
 							</ul>
 							<form class="navbar-form navbar-right" role="search">
 								<div class="form-group">
@@ -73,4 +74,21 @@
 				</nav>
 			</div>
 </body>
+<script type="text/javascript">
+	$(function() {
+		//向服务端CategoryServlet中的getAllCats发起ajax请求，服务端进过处理
+		//将所有分类信息以JSON数据格式返回，获取到返回的所有分类绑定在页面的显示分类区域
+		var url = "/store/CategoryServlet";
+		var obj = {"method":"findAllCats"};
+		$.post(url ,obj ,function(data){
+			//获取到服务端响应的数据，经过观察data中存放的的是一个json数据格式，遍历数组，动态显示分类区域代码
+			$.each(data,function(i,obj){
+				var li = "<li><a href='#'>"+obj.cname+"</a></li>";
+				$("#myUL").append(li);
+			});
+		},"json");	
+	});
+</script>
 </html>
+
+
