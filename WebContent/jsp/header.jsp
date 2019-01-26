@@ -83,7 +83,7 @@
 		$.post(url ,obj ,function(data){
 			//获取到服务端响应的数据，经过观察data中存放的的是一个json数据格式，遍历数组，动态显示分类区域代码
 			$.each(data,function(i,obj){
-				var li = "<li><a href='#'>"+obj.cname+"</a></li>";
+				var li = "<li><a href='/store/ProductServlet?method=findProductsByCidWithPage&num=1&cid="+obj.cid+"'>"+obj.cname+"</a></li>";
 				$("#myUL").append(li);
 			});
 		},"json");	

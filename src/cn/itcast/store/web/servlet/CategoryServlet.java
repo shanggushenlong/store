@@ -35,14 +35,14 @@ public class CategoryServlet extends BaseServlet {
 			//将从mysql数据库获取到的JSON数据格式数据存入redis
 			jedis.set("allCats", jsonStr);
 			
-			System.out.println("redis缓存中没有数据");
+			//System.out.println("redis缓存中没有数据");
 			
 			//将全部分类信息相应到客户端
 			//告诉浏览器本次响应的数据是JSON格式的字符串
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);	
 		}else {
-			System.out.println("redis缓存中有数据");
+			//System.out.println("redis缓存中有数据");
 			response.setContentType("application/json;charset=utf-8");
 			response.getWriter().print(jsonStr);
 		}
